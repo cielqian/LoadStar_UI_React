@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import axios from 'axios';
+import Routes from './router'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+axios.defaults.baseURL = "http://localhost:9080";
+axios.interceptors.response.use(
+  function (response) {
+    var res = response;
+    if (res.status == 200) {
+      return Promise.resolve(res.data);        
+    }else{
+      return Promise.reject(res);
+    }
+  },
+  function (error) {
+    if (error.response.status === 401) {
+      return Promise.reject(error); 
+    }
+  }
+);
+
+class App extends Component {
+  render() {
+    return (
+      <div className="container">
+        <Routes></Routes>
+      </div>
+    )
+  }
 }
 
 export default App;
