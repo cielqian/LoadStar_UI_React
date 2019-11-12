@@ -23,9 +23,7 @@ axios.interceptors.response.use(
 class App extends Component {
   render() {
     return (
-      <div className="container">
-        <Routes></Routes>
-      </div>
+      <Routes></Routes>
     )
   }
 }
