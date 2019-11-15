@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
-import loginCss from '../css/login.module.scss';
-import Logo from '../components/logo';
-import { fetchLogin } from '../apis/auth';
+import loginCss from './login.module.scss';
+import Logo from '../../components/logo';
+import { fetchLogin } from '../../apis/auth';
+import { connect } from 'react-redux'
+import { saveToken } from '../../redux/actions/auth'
 
 class Login extends Component {
     constructor(props){
@@ -16,7 +18,7 @@ class Login extends Component {
                 <div className={loginCss.login}>
                     <Logo></Logo>
                     <div className={loginCss.loginForm}>
-                    <WrappedLoginForm  />
+                        <WrappedLoginForm  />
                     </div>
                 </div>
             </div>
@@ -25,22 +27,14 @@ class Login extends Component {
 }
 
 class LoginForm extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            loading: false
-        };
-    };
-    to(){
-        this.props.history.push({pathname:'home'})
-    };
     handleSubmit = (e, _this) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 this.setState({loading: true});
                 fetchLogin(values.username, values.password).then(res => {
-                    this.props.history.push('/home')
+                    this.props.dispatch(saveToken(res.value));
+                    this.props.history.push('/home');
                 }).catch(err => {
                     message.error('账号或密码错误');  
                     _this.setState({loading: false});
@@ -58,7 +52,7 @@ class LoginForm extends Component {
                     })(
                         <Input
                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="Username" disabled={this.state.loading}
+                            placeholder="Username" disabled={this.props.loading}
                         />,
                     )}
                 </Form.Item>
@@ -69,7 +63,7 @@ class LoginForm extends Component {
                         <Input
                             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                             type="password"
-                            placeholder="Password" disabled={this.state.loading}
+                            placeholder="Password" disabled={this.props.loading}
                         />,
                     )}
                 </Form.Item>
@@ -77,11 +71,11 @@ class LoginForm extends Component {
                     {getFieldDecorator('remember', {
                         valuePropName: 'checked',
                         initialValue: true,
-                    })(<Checkbox disabled={this.state.loading}>Remember me</Checkbox>)}
+                    })(<Checkbox disabled={this.props.loading}>Remember me</Checkbox>)}
                     {/* <a className="login-form-forgot" href="">
                         Forgot password
                     </a> */}
-                    <Button type="primary" disabled={this.state.loading} htmlType="submit" className={loginCss.loginFormButton}>
+                    <Button type="primary" disabled={this.props.loading} htmlType="submit" className={loginCss.loginFormButton}>
                         Log in
                     </Button>
                     Or 
@@ -91,6 +85,13 @@ class LoginForm extends Component {
         )
     }
 }
-const WrappedLoginForm = withRouter(Form.create({ name: 'login_form' })(LoginForm));
 
-export default Login;
+const WrappedLoginForm = withRouter(Form.create({ name: 'login_form' })(connect()(LoginForm)));
+
+const mapStateToProps = (state) => {
+    const stateObj = state.loadstar['auth'];
+    return {
+        token:stateObj.token
+    };
+};
+export default connect(mapStateToProps)(Login);

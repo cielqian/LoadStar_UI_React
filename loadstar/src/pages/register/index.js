@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Form, Icon, Input, Button } from 'antd';
 import { fetchRegister } from '../../apis/auth'
 import Logo from '../../components/logo';
-import loginCss from '../../css/login.module.scss';
+import loginCss from './login.module.scss';
 
 document.title = '创建账户';
 
@@ -14,7 +14,7 @@ class Register extends React.Component {
                 <div className={loginCss.login}>
                     <Logo></Logo>
                     <div className={loginCss.loginForm}>
-                    <WrappedNormalLoginForm  />
+                    <WrappedRegisterForm  />
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@ class RegisterForm extends React.Component {
         )
     }
 }
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(RegisterForm);
+const WrappedRegisterForm = Form.create({ name: 'normal_register' })(RegisterForm);
 
 export default Register;
 
