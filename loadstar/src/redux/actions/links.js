@@ -33,7 +33,7 @@ export function saveLink(payload) {
           })
         .then(res => {
             dispatch(hiddenDrawer());
-            dispatch(fetchLinks());
+            // dispatch(fetchLinks());
         });
     }
 }
@@ -45,8 +45,8 @@ export function fetchLinks(payload) {
             pageSize: payload.size
         }})
         .then(res => {
-            dispatch(receiveRecentLink(res.data.items));
-            dispatch(setTotal({total:3}));
+            dispatch({type:'linkPage.pageData',payload:res.data.items});
+            dispatch({type:'linkPage.pagination', payload: Object.assign({},payload,{total:parseInt(res.data.total)})});
         }).catch(res => {
             dispatch(receiveRecentLink([]));
         });

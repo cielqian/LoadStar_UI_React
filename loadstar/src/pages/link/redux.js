@@ -44,10 +44,9 @@ function fetchLinks(payload) {
             pageSize: payload.size
         }})
         .then(res => {
-            let stateObject = getState()['linkPage'];
             dispatch(receiveRecentLink(res.data.items));
         }).catch(res => {
-            dispatch(receiveRecentLink([]));
+            // dispatch(receiveRecentLink([]));
         });
     }
 }

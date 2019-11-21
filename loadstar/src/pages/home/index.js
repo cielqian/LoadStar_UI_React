@@ -7,6 +7,7 @@ import homeCss from './home.module.scss';
 import Setting from '../setting';
 import Dash from '../dash';
 import LinkManagement from '../link';
+import TagManagement from '../tag';
 import BookmarkDrawer from '../../components/link/bookmarkDrawer';
 
 
@@ -57,6 +58,12 @@ class Home extends Component {
                                     <span>Link</span>
                                 </Link>
                             </Menu.Item>
+                            <Menu.Item key="#/tag">
+                                <Link to="/tag">
+                                    <Icon type="book" />
+                                    <span>Tag</span>
+                                </Link>
+                            </Menu.Item>
                             <Menu.Item key="#/setting">
                                 <Icon type="setting" />
                                 <span>Setting</span>
@@ -79,6 +86,7 @@ class Home extends Component {
                             <Route path="/" exact component={Dash} />
                             <Route path="/dash" component={Dash} />
                             <Route path="/link" component={LinkManagement} />
+                            <Route path="/tag" component={TagManagement} />
                             <Route path="/setting" component={Setting} />
                         </Content>
                         <BookmarkDrawer></BookmarkDrawer>

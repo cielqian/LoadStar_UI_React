@@ -6,8 +6,16 @@ import { removeLink, fetchLinks } from '../../redux/actions/links'
 import { Table, Button , Popconfirm} from 'antd'
 
 class LinkManagement extends Component {
+    constructor(props){
+        super(props);
+        this.onPageChange = this.onPageChange.bind(this);
+    }
     componentDidMount(){
-        this.props.dispatch(fetchLinks(this.props));
+        const pagination = this.props.pagination;
+        this.props.dispatch(fetchLinks(pagination));
+    }
+    onPageChange(page, pageSize){
+        this.props.dispatch(fetchLinks({size:pageSize,current:page}));
     }
     onDeleteLink(link) {
         this.props.dispatch(removeLink(link));
@@ -49,24 +57,25 @@ class LinkManagement extends Component {
                             });
                         },
                         onMouseLeave: event => { },
-                    };
-                }}
+                        };
+                    }}
                     rowClassName={(record, index) => {
                         const { hoverRowIndex } = this.props;
                         return index === hoverRowIndex ? styles.rowActive : "";
                     }}
-                    columns={this.columns} dataSource={this.props.recentLinks} size="middle" 
-                    pagination={{current:this.props.current, total:this.props.total}} />
+                    columns={this.columns} dataSource={this.props.pageData} size="small" rowKey="id"
+                    pagination={{current:this.props.pagination.current, 
+                    pageSize: this.props.pagination.size,
+                    total:this.props.pagination.total,
+                    onChange:this.onPageChange}} />
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    const stateObj = state.loadstar.links;
-    const pageState = state.loadstar.linkPage;
+    const pageState = state.loadstar.pages.linkPage;
     return Object.assign({}, pageState, {
-        recentLinks: stateObj.recentLinks,
         hoverRowIndex: state.loadstar.common.hoverRowIndex
     });
 };
