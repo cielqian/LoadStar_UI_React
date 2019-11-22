@@ -35,7 +35,7 @@ class LinkManagement extends Component {
                                 okText="Yes"
                                 cancelText="No"
                             >
-                                <Button type="danger" size="small">删除</Button>
+                                <Button type="link" size="small">删除</Button>
                             </Popconfirm>
                         </div>
                     </div>)

@@ -2,6 +2,11 @@ import genericReducer from '../../redux/reducers/genericReducer'
 import axios from 'axios';
 
 export const actions = {
+    setValue: function(field, payload){
+        return (dispatch, getState) => {
+            dispatch({type: reducerConfig.pageId + '.' + field,payload:payload})
+        }
+    },
     fetchTags: function(payload) {
         return (dispatch, getState) => {
             axios.get('/link-service/api/tag/current')

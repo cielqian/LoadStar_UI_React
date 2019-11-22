@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Link, HashRouter, Route, withRouter } from 'react-router-dom';
-import { Layout, Menu, Icon} from 'antd';
+import { Layout, Menu, Icon, Input, Row} from 'antd';
 import { showDrawer } from '../../redux/actions/common'
 import homeCss from './home.module.scss';
 import Setting from '../setting';
@@ -9,6 +9,7 @@ import Dash from '../dash';
 import LinkManagement from '../link';
 import TagManagement from '../tag';
 import BookmarkDrawer from '../../components/link/bookmarkDrawer';
+import {actions} from './redux';
 
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -36,6 +37,9 @@ class Home extends Component {
     };
     openDrawer() {
         this.props.dispatch(showDrawer());
+    };
+    fullSearch(e){
+        this.props.dispatch(actions.fullTextSearch(e.target.value))
     };
     render() {
         return (
@@ -73,12 +77,18 @@ class Home extends Component {
                     </Sider>
                     <Layout>
                         <Header style={{ background: '#fff', padding: 0 }}>
-                            <Icon
-                                className="trigger"
-                                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                                onClick={this.toggle}
-                            />
-                            <Icon className={homeCss.launch} onClick={this.openDrawer} type="thunderbolt" />
+                            <Row>
+                                <Icon
+                                    className="trigger"
+                                    type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                    onClick={this.toggle}
+                                />
+                                <Icon className={homeCss.launch} onClick={this.openDrawer} type="thunderbolt" />
+                                <Input className={homeCss.searcher} onPressEnter={e => this.fullSearch(e)}
+                                    placeholder="Enter your username"
+                                    prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    />
+                            </Row>
                         </Header>
                         <Content>
                             {/* <Route path="/dash" component={Dash} />

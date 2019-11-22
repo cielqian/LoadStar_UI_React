@@ -32,7 +32,7 @@ function saveLink(payload) {
           })
         .then(res => {
             dispatch(hiddenDrawer());
-            dispatch(fetchLinks());
+            dispatch(fetchLinks({current:1,size:10}));
         });
     }
 }
@@ -41,7 +41,8 @@ function fetchLinks(payload) {
     return (dispatch, getState) => {
         axios.get('/link-service/api/link/page', {params:{
             currentPage: payload.current,
-            pageSize: payload.size
+            pageSize: payload.size,
+            'sorts[0].column': 'createDate'
         }})
         .then(res => {
             dispatch(receiveRecentLink(res.data.items));

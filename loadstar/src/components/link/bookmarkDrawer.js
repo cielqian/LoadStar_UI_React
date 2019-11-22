@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Icon, Drawer, Form, Input, Button, message } from 'antd';
+import { Icon, Drawer, Form, Input, Button, message, Tag } from 'antd';
 import {analysisLink} from '../../apis/link'
 import * as utils from '../../utils/util'
 import { saveLink, fetchTags } from '../../redux/actions/links'
@@ -8,6 +8,7 @@ import { hiddenDrawer } from '../../redux/actions/common'
 
 
 const { Search } = Input;
+const {CheckableTag} = Tag;
 
 class BookmarkDrawer extends Component {
     constructor(props) {
@@ -88,6 +89,7 @@ class BookmarkForm extends Component {
                         />,
                     )}
                 </Form.Item>
+                
                 <Form.Item style={{ textAlign: 'center' }}>
                     <Button type="primary" disabled={this.props.loading} htmlType="submit" style={{ width: '220px' }}>
                         Save
