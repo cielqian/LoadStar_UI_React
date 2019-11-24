@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Link, HashRouter, Route, withRouter } from 'react-router-dom';
-import { Layout, Menu, Icon, Input, Row} from 'antd';
+import { Link, Route, withRouter } from 'react-router-dom';
+import { Layout, Menu, Icon, Input, Row } from 'antd';
 import { showDrawer } from '../../redux/actions/common'
 import homeCss from './home.module.scss';
-import Setting from '../setting';
-import Dash from '../dash';
+
+import SearchResult from '../search';
+import SettingManagement from '../setting';
+import DashPanel from '../dash';
 import LinkManagement from '../link';
 import TagManagement from '../tag';
-import BookmarkDrawer from '../../components/link/bookmarkDrawer';
-import {actions} from './redux';
 
+import BookmarkDrawer from '../../components/link/bookmarkDrawer';
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -22,8 +23,7 @@ class Home extends Component {
         this.openDrawer = this.openDrawer.bind(this);
     }
     componentDidMount() {
-        this.props.history.location.hash = "#/dash";
-
+        this.props.history.location.pathname = '/home/dash';
     }
     state = {
         collapsed: false,
@@ -38,40 +38,39 @@ class Home extends Component {
     openDrawer() {
         this.props.dispatch(showDrawer());
     };
-    fullSearch(e){
-        this.props.dispatch(actions.fullTextSearch(e.target.value))
+    fullSearch(e) {
+        this.props.history.push({pathname:'/home/search',query:{keyword:e.target.value}});
     };
     render() {
         return (
-            <HashRouter>
-                <Layout className='home' style={{ height: "100%" }}>
+            <Layout className='home' style={{ height: "100%" }}>
                     <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
                         {
                             !this.state.collapsed ? (<div className={homeCss.slogan}>LoadStar</div>) : null
                         }
-                        <Menu theme="dark" mode="inline" defaultSelectedKeys={['#/dash']} selectedKeys={this.props.history.location.hash}>
-                            <Menu.Item key="#/dash">
-                                <Link to="/dash">
+                        <Menu theme="dark" mode="inline" defaultSelectedKeys={['/home/dash']} selectedKeys={this.props.history.location.pathname}>
+                            <Menu.Item key="/home/dash">
+                                <Link to="/home/dash">
                                     <Icon type="windows" />
                                     <span>Dash</span>
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="#/link">
-                                <Link to="/link">
+                            <Menu.Item key="/home/link">
+                                <Link to="/home/link">
                                     <Icon type="compass" />
                                     <span>Link</span>
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="#/tag">
-                                <Link to="/tag">
+                            <Menu.Item key="/home/tag">
+                                <Link to="/home/tag">
                                     <Icon type="book" />
                                     <span>Tag</span>
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="#/setting">
+                            <Menu.Item key="/home/setting">
                                 <Icon type="setting" />
                                 <span>Setting</span>
-                                <Link to="/setting"></Link>
+                                <Link to="/home/setting"></Link>
                             </Menu.Item>
                         </Menu>
                     </Sider>
@@ -85,32 +84,29 @@ class Home extends Component {
                                 />
                                 <Icon className={homeCss.launch} onClick={this.openDrawer} type="thunderbolt" />
                                 <Input className={homeCss.searcher} onPressEnter={e => this.fullSearch(e)}
-                                    placeholder="Enter your username"
+                                    placeholder="Enter your keyword for search"
                                     prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    />
+                                />
                             </Row>
                         </Header>
                         <Content>
-                            {/* <Route path="/dash" component={Dash} />
-                        <Route path="/link" component={Links} /> */}
-                            <Route path="/" exact component={Dash} />
-                            <Route path="/dash" component={Dash} />
-                            <Route path="/link" component={LinkManagement} />
-                            <Route path="/tag" component={TagManagement} />
-                            <Route path="/setting" component={Setting} />
+                            <Route path="/home/dash" exact component={DashPanel} />
+                            <Route path="/home/link" exact component={LinkManagement} />
+                            <Route path="/home/tag" exact component={TagManagement} />
+                            <Route path="/home/setting" exact component={SettingManagement} />
+                            <Route path="/home/search" exact component={SearchResult} /> 
+                            {/* {
+                                this.props.routes.map((item, index) => {
+                                    return <Route path={item.path} component={item.component} />
+                                })
+                            } */}
                         </Content>
                         <BookmarkDrawer></BookmarkDrawer>
                         <Footer style={{ textAlign: 'center' }}>LoadStar ©2019 Created by CielQian</Footer>
                     </Layout>
                 </Layout>
-            </HashRouter>
         );
     }
 };
-
-
-
-
-
 
 export default withRouter(connect()(Home));
