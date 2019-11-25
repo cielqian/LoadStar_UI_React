@@ -2,6 +2,7 @@ import * as actionType from '../actionType';
 
 const initialState = {
   drawerVisiable: false,
+  tags:['1','2'],
   hoverRowIndex: 0
 };
 

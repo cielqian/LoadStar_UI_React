@@ -75,8 +75,9 @@ class LinkManagement extends Component {
 
 const mapStateToProps = (state) => {
     const pageState = state.loadstar.pages.linkPage;
+    const globalState = state.loadstar.global;
     return Object.assign({}, pageState, {
-        hoverRowIndex: state.loadstar.common.hoverRowIndex
+        hoverRowIndex: globalState.hoverRowIndex
     });
 };
 

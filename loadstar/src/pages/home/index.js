@@ -12,7 +12,7 @@ import LinkManagement from '../link';
 import TagManagement from '../tag';
 
 import BookmarkDrawer from '../../components/link/bookmarkDrawer';
-
+import Searcher from '../../components/searcher'
 const { Header, Sider, Content, Footer } = Layout;
 
 document.title = 'LoadStar';
@@ -37,9 +37,6 @@ class Home extends Component {
     };
     openDrawer() {
         this.props.dispatch(showDrawer());
-    };
-    fullSearch(e) {
-        this.props.history.push({pathname:'/home/search',query:{keyword:e.target.value}});
     };
     render() {
         return (
@@ -83,10 +80,7 @@ class Home extends Component {
                                     onClick={this.toggle}
                                 />
                                 <Icon className={homeCss.launch} onClick={this.openDrawer} type="thunderbolt" />
-                                <Input className={homeCss.searcher} onPressEnter={e => this.fullSearch(e)}
-                                    placeholder="Enter your keyword for search"
-                                    prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                />
+                                <Searcher></Searcher>
                             </Row>
                         </Header>
                         <Content>

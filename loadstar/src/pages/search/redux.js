@@ -6,15 +6,29 @@ export const actions = {
         return (dispatch, getState) => {
             axios.get('/link-service/api/link/search',{params:{keyword:payload}})
             .then(res => {
+                dispatch(actions.setValue('pageData', res.data.items));
             })
             .catch(res => {});
+        }
+    },
+    setValue: function (field, payload) {
+        return (dispatch, getState) => {
+            dispatch({type:reducerConfig.pageId + '.' + field ,payload: payload});
         }
     }
 }
 
 export const reducerConfig = {
-    pageId: 'homePage',
+    pageId: 'searchResultPage',
     reducers: [
+        {
+            name: 'pageData',
+            initialState: []
+        },
+        {
+            name: 'loading',
+            initialState: true
+        }
     ]
 };
 

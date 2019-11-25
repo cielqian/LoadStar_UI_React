@@ -5,7 +5,7 @@ import {analysisLink} from '../../apis/link'
 import * as utils from '../../utils/util'
 import { saveLink, fetchTags } from '../../redux/actions/links'
 import { hiddenDrawer } from '../../redux/actions/common'
-
+import GroupSelectTag from '../tag'
 
 const { Search } = Input;
 const {CheckableTag} = Tag;
@@ -89,7 +89,12 @@ class BookmarkForm extends Component {
                         />,
                     )}
                 </Form.Item>
-                
+                <Form.Item>
+                    {getFieldDecorator('selectedTags')(
+                    <GroupSelectTag tags={this.props.tags}>
+                      </GroupSelectTag>
+                    )}
+                </Form.Item>
                 <Form.Item style={{ textAlign: 'center' }}>
                     <Button type="primary" disabled={this.props.loading} htmlType="submit" style={{ width: '220px' }}>
                         Save
@@ -101,9 +106,10 @@ class BookmarkForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const stateObj = state.loadstar.common;
+    const globalState = state.loadstar.global;
     return {
-        drawerVisiable: stateObj.drawerVisiable
+        drawerVisiable: globalState.drawerVisiable,
+        tags: globalState.tags
     };
 };
 

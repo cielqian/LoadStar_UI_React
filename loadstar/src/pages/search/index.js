@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-import { PageHeader } from 'antd';
-
 import { actions } from './redux';
+
+import { PageHeader, Table } from 'antd';
 
 class Search extends Component {
     constructor(props) {
@@ -14,24 +13,51 @@ class Search extends Component {
         let queryParam = this.props.location.query;
         if (queryParam&&queryParam.keyword) {
             this.props.dispatch(actions.fullTextSearch(queryParam.keyword));
+            this.props.dispatch(actions.setValue('loading', false));
         }
     }
     goBack(){
         this.props.history.push('/home');
     }
+    formatHtml(content){
+        return content + '<div></div>'
+    };
+    columns = [
+        {
+            title: 'Name',
+            dataIndex: 'title',
+            render: (text, record) => {
+                return (
+                    <div>
+                        <a href={record.url} target="_blank" dangerouslySetInnerHTML={{__html:text}} ></a>
+                    </div>
+                )
+            },
+        }
+    ];
     render() {
         return (
             <div>
                 <PageHeader
-                    style={{
-                        border: '1px solid rgb(235, 237, 240)',
-                    }}
                     onBack={() => this.goBack()}
                     title="Search Result"
                 />
+                <Table 
+                    columns={this.columns} 
+                    loading={this.props.loading}
+                    dataSource={this.props.pageData} 
+                    pagination={false} 
+                    size="small" 
+                    rowKey="id">
+                </Table>
             </div>
         );
     }
 }
 
-export default withRouter(connect()(Search));
+const mapStateToProps = (state) => {
+    const pageState = state.loadstar.pages.searchResultPage;
+    return Object.assign({}, pageState);
+};
+
+export default withRouter(connect(mapStateToProps)(Search));
