@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './link.module.scss';
-import { removeLink, fetchLinks } from '../../redux/actions/links'
-
+import {actions} from './redux';
 import { Table, Button , Popconfirm} from 'antd'
 
 class LinkManagement extends Component {
@@ -12,13 +11,13 @@ class LinkManagement extends Component {
     }
     componentDidMount(){
         const pagination = this.props.pagination;
-        this.props.dispatch(fetchLinks(pagination));
+        this.props.dispatch(actions.fetchLinks(pagination));
     }
     onPageChange(page, pageSize){
-        this.props.dispatch(fetchLinks({size:pageSize,current:page}));
+        this.props.dispatch(actions.fetchLinks({size:pageSize,current:page}));
     }
     onDeleteLink(link) {
-        this.props.dispatch(removeLink(link));
+        this.props.dispatch(actions.removeLink(link));
     }
     columns = [
         {

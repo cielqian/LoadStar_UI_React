@@ -1,12 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { FrontendAuth } from './FrontendAuth'
 import { routerConfig, flatRouterConfig } from './routerConfig'
-import SettingManagement from '../pages/setting';
+import Login from '../pages/login';
+import Register from '../pages/register';
 
-export default () => (
-  <Router>
-    <FrontendAuth config={routerConfig} flatConfig={flatRouterConfig} />
+export default () => {
+  const isLogin = localStorage.getItem('TOKEN');
+
+  if (isLogin) {
+    return <Router>
     {
       routerConfig.map((route, key) => {
         if (route.exact) {
@@ -25,4 +28,10 @@ export default () => (
       })
     }
   </Router>
-)
+  } else {
+    return <Router>
+        <Route path="/login" component={Login}></Route>
+        <Redirect to="/login"></Redirect>
+    </Router>
+  }
+}

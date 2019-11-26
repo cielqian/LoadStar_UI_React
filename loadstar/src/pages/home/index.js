@@ -11,7 +11,7 @@ import DashPanel from '../dash';
 import LinkManagement from '../link';
 import TagManagement from '../tag';
 
-import BookmarkDrawer from '../../components/link/bookmarkDrawer';
+import BookmarkDrawer from '../../components/bookmarkDrawer';
 import Searcher from '../../components/searcher'
 const { Header, Sider, Content, Footer } = Layout;
 

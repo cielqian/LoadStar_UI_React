@@ -6,7 +6,7 @@ const initialState = {
   hoverRowIndex: 0
 };
 
-function common(state = initialState, action) {
+function global(state = initialState, action) {
   switch (action.type) {
     case actionType.HIDDEN_DRAWER:
       return Object.assign({}, state, {
@@ -15,6 +15,10 @@ function common(state = initialState, action) {
     case actionType.SHOW_DRAWER:
       return Object.assign({}, state, {
         drawerVisiable: true
+      });
+    case 'fetchTags':
+        return Object.assign({}, state, {
+          tags: action.payload
       });
     case 'linkManage/upState':
       return Object.assign({}, state, {
@@ -25,4 +29,4 @@ function common(state = initialState, action) {
   }
 }
 
-export default common;
+export default global;

@@ -3,9 +3,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import loginCss from './login.module.scss';
 import Logo from '../../components/logo';
-import { fetchLogin } from '../../apis/auth';
 import { connect } from 'react-redux'
-import { saveToken } from '../../redux/actions/auth'
+import { actions } from './redux'
 
 class Login extends Component {
     constructor(props){
@@ -32,13 +31,17 @@ class LoginForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 this.setState({loading: true});
-                fetchLogin(values.username, values.password).then(res => {
-                    this.props.dispatch(saveToken(res.value));
-                    this.props.history.push('/home');
-                }).catch(err => {
-                    message.error('账号或密码错误');  
-                    _this.setState({loading: false});
-                })
+                this.props.dispatch(actions.login(values))
+                
+
+                // fetchLogin(values.username, values.password).then(res => {
+                //     this.props.dispatch(saveToken(res.value)).then(res => {
+                //         this.props.history.push('/home');
+                //     });
+                // }).catch(err => {
+                //     message.error('账号或密码错误');  
+                //     _this.setState({loading: false});
+                // })
             }
         });
     };

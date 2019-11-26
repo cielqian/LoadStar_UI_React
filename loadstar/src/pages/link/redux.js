@@ -1,71 +1,30 @@
-import * as actionType from '../actionType';
-import makeActionCreator from './actionCreator';
-import { hiddenDrawer } from './common';
-
-import axios from 'axios';
-
-export const requestRecentLink = makeActionCreator(actionType.REQUEST_RECENT_LINK);
-export const receiveRecentLink = makeActionCreator(actionType.RECEIVE_RECENT_LINK, 'payload');
-
-export const receiveTag = makeActionCreator(actionType.RECEIVE_TAG, 'payload');
-
-
-function removeLink(payload){
-    return (dispatch) => {
-        axios.delete('/link-service/api/link/' + payload.id)
-        .then(res => {
-            dispatch(fetchLinks());
-        });
-    }
-}
-
-function saveLink(payload) {
-    return (dispatch) => {
-        axios.post('/link-service/api/link', {
-            "folderId": 0,
-            "icon": "",
-            "name": payload.name,
-            "often": true,
-            "tags": [],
-            "title": payload.name,
-            "url": payload.url
-          })
-        .then(res => {
-            dispatch(hiddenDrawer());
-            dispatch(fetchLinks({current:1,size:10}));
-        });
-    }
-}
-
-function fetchLinks(payload) {
-    return (dispatch, getState) => {
-        axios.get('/link-service/api/link/page', {params:{
-            currentPage: payload.current,
-            pageSize: payload.size,
-            'sorts[0].column': 'createDate'
-        }})
-        .then(res => {
-            dispatch(receiveRecentLink(res.data.items));
-        }).catch(res => {
-            // dispatch(receiveRecentLink([]));
-        });
-    }
-}
-
-function fetchTags(payload){
-    return (dispatch) => {
-        axios.get('/link-service/api/tag',{params:{keyword:payload.keyword}})
-        .then(res => {
-            dispatch(receiveTag(res.data));
-        }).catch(res => {
-            dispatch(receiveTag([]));
-        });
-    }
-}
+import * as reducerConfig from './config';
+import linkService from '@apiService/linkService';
 
 export const actions = {
-    removeLink,
-    saveLink,
-    fetchLinks,
-    fetchTags
+    setValue: function(field, payload){
+        return (dispatch, getState) => {
+            dispatch({type: reducerConfig.pageId + '.' + field,payload:payload})
+        }
+    },
+    removeLink: function (payload) {
+        return (dispatch) => {
+            linkService.removeLink(payload)
+            .then(res => {
+                dispatch(actions.fetchLinks({current:1,size:10}))
+            })
+        }
+    },
+
+    fetchLinks: function (payload) {
+        return (dispatch, getState) => {
+            linkService.fetchLinks({
+                currentPage: payload.current,
+                pageSize: payload.size
+            }).then(res => {
+                dispatch(actions.setValue('pageData', res.data.items));
+                dispatch(actions.setValue('pagination', Object.assign({},payload,{total:parseInt(res.data.total)})));
+            })
+        }
+    }
 }

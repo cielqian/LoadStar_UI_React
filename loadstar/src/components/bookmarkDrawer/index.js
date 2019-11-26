@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Icon, Drawer, Form, Input, Button, message, Tag } from 'antd';
 import {analysisLink} from '../../apis/link'
 import * as utils from '../../utils/util'
-import { saveLink, fetchTags } from '../../redux/actions/links'
 import { hiddenDrawer } from '../../redux/actions/common'
 import GroupSelectTag from '../tag'
-
+import {actions} from './redux';
+import {pageId} from './config';
 const { Search } = Input;
 const {CheckableTag} = Tag;
 
@@ -14,6 +14,9 @@ class BookmarkDrawer extends Component {
     constructor(props) {
         super(props);
         this.onClose = this.onClose.bind(this);
+        this.props.dispatch(actions.fetchTags());
+    }
+    componentDidMount(){
     }
     onClose = () => {
         this.props.dispatch(hiddenDrawer());
@@ -40,7 +43,6 @@ class BookmarkForm extends Component {
         this.onUrlChanged = this.onUrlChanged.bind(this);
     }
     componentDidMount(){
-        this.props.dispatch(fetchTags({keyword:''}))
     }
     state = {
         analysising: false
@@ -50,7 +52,7 @@ class BookmarkForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 if (utils.isUrl(values.url)) {
-                    this.props.dispatch(saveLink(values))
+                    this.props.dispatch(actions.saveLink(values))
                 } else {
                     message.warning('仅支持http和https协议');
                 }
@@ -107,9 +109,10 @@ class BookmarkForm extends Component {
 
 const mapStateToProps = (state) => {
     const globalState = state.loadstar.global;
+    const pageState = state.loadstar.pages[pageId];
     return {
         drawerVisiable: globalState.drawerVisiable,
-        tags: globalState.tags
+        tags: pageState.tags
     };
 };
 

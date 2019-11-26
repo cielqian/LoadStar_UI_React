@@ -35,12 +35,6 @@ export const routerConfig = [
                 component:SearchResult
             } 
         ]
-    },{
-        path:'/login',
-        component:Login,
-    },{
-        path:'/register',
-        component:Register,
     }
 ];
 
@@ -53,12 +47,6 @@ export const flatRouterConfig = [
         path:'/home',
         component:Home,
         auth:true
-    },{
-        path:'/login',
-        component:Login,
-    },{
-        path:'/register',
-        component:Register,
     },
     {
         path:'/home/setting',

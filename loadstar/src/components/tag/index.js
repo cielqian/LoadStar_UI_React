@@ -18,14 +18,17 @@ class GroupSelectTag extends Component {
     
     const value = props.value || {};
     this.state = {
-      selectedTags: value.selectedTags || []
+      selectedTags: value.selectedTags || [],
+      selectedTagIds: []
     };
   }
 
   handleChange(tag, checked){
     const { selectedTags } = this.state;
     const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
+    const nextSelectedTagIds = nextSelectedTags.map(x => x.id);
     this.setState({ selectedTags: nextSelectedTags });
+    this.setState({ selectedTagIds: nextSelectedTagIds });
     this.triggerChange(nextSelectedTags);
   };
 
@@ -37,15 +40,15 @@ class GroupSelectTag extends Component {
   };
 
   render() {
-    const { selectedTags } = this.state;
+    const { selectedTags, selectedTagIds } = this.state;
     return (
       <div>
         {
           this.props.tags.map(tag => (
-            <CheckableTag key={tag}
-              checked={selectedTags.indexOf(tag) > -1}
+            <CheckableTag key={tag.id}
+              checked={selectedTagIds.indexOf(tag.id) > -1}
               onChange={checked => this.handleChange(tag, checked)}>
-              {tag}
+              {tag.name}
             </CheckableTag>
           ))
         }

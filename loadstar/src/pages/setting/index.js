@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Row, Col } from 'antd';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
-import { removeToken } from '../../redux/actions/auth'
 
 class Setting extends Component {
     constructor(props) {
@@ -11,7 +10,8 @@ class Setting extends Component {
     }
     logout(e){
         e.preventDefault();
-        this.props.dispatch(removeToken())
+        localStorage.removeItem('TOKEN')
+        // this.props.dispatch(removeToken())
         window.location.href = "/login";
     };
     render() {

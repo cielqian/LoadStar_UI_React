@@ -38,7 +38,6 @@ export const actions = {
     }
 }
 
-
 export const reducerConfig = {
     pageId: 'tagPage',
     reducers: [

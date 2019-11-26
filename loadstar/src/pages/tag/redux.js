@@ -11,7 +11,7 @@ export const actions = {
         return (dispatch, getState) => {
             axios.get('/link-service/api/tag/current')
             .then(res => {
-                dispatch({type:'tagPage.pageData',payload:res.data});
+                dispatch(actions.setValue('pageData', res.data));
             })
             .catch(res => {});
         }
@@ -37,7 +37,6 @@ export const actions = {
         }
     }
 }
-
 
 export const reducerConfig = {
     pageId: 'tagPage',

@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
-import './App.css';
-import Routes from './router'
+import ComponentConfgs from '../components/combine_config';
+import PageConfgs from '../pages/combine_config';
 
-import * as boot from './kernal/boot';
 import axios from 'axios';
+import _ from 'lodash'
 
-// boot.launch();
-
-axios.defaults.baseURL = "http://localhost:9080";
+function configAxios() {
+    axios.defaults.baseURL = "http://localhost:9080";
 
     axios.interceptors.request.use(
         function (config) {
@@ -37,13 +35,25 @@ axios.defaults.baseURL = "http://localhost:9080";
             return Promise.reject(error);
         }
     );
-
-class App extends Component {
-  render() {
-    return (
-      <Routes></Routes>
-    )
-  }
 }
 
-export default App;
+function combineConfig() {
+    return _.concat(ComponentConfgs, PageConfgs);
+}
+
+function buildActions() {
+    _.forEach(combineConfig(), cfg => {
+        
+    });
+}
+
+export function buildReducers() {
+    return combineConfig();
+}
+
+export function launch() {
+    configAxios();
+    buildActions();
+    buildReducers();
+
+}
