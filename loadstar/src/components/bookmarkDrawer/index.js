@@ -92,7 +92,7 @@ class BookmarkForm extends Component {
                     )}
                 </Form.Item>
                 <Form.Item>
-                    {getFieldDecorator('selectedTags')(
+                    {getFieldDecorator('selectedTags',{rules:[]})(
                     <GroupSelectTag tags={this.props.tags}>
                       </GroupSelectTag>
                     )}

@@ -24,7 +24,7 @@ function loadApp(state = {pages:{}}, action) {
     pages: {
       // linkPage: linkPage(state.pages.linkPage, action),
       // tagPage: tagPage(state.pages.tagPage, action),
-      searchResultPage: searchPage(state.pages.searchResultPage, action),
+      // searchResultPage: searchPage(state.pages.searchResultPage, action),
       ...pageState
     }
   }

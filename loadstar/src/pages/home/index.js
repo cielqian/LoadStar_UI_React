@@ -11,6 +11,9 @@ import DashPanel from '../dash';
 import LinkManagement from '../link';
 import TagManagement from '../tag';
 
+import TrackService from '../../service/trackService';
+
+
 import BookmarkDrawer from '../../components/bookmarkDrawer';
 import Searcher from '../../components/searcher'
 const { Header, Sider, Content, Footer } = Layout;
@@ -36,6 +39,7 @@ class Home extends Component {
         });
     };
     openDrawer() {
+        TrackService.recordCtrlClick({pageId:'home',ctrlId:'createLink'})
         this.props.dispatch(showDrawer());
     };
     render() {

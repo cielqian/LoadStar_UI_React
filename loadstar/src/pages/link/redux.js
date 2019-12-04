@@ -15,7 +15,6 @@ export const actions = {
             })
         }
     },
-
     fetchLinks: function (payload) {
         return (dispatch, getState) => {
             linkService.fetchLinks({

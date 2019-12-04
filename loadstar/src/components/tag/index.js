@@ -21,6 +21,7 @@ class GroupSelectTag extends Component {
       selectedTags: value.selectedTags || [],
       selectedTagIds: []
     };
+    this.triggerChange([]);
   }
 
   handleChange(tag, checked){
