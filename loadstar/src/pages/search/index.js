@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { actions } from './redux';
+import * as config from './config';
 
 import { PageHeader, Table } from 'antd';
 
@@ -9,13 +9,13 @@ class Search extends Component {
     constructor(props) {
         super(props);
     }
-    componentDidMount() {
-        let queryParam = this.props.location.query;
-        if (queryParam&&queryParam.keyword) {
-            this.props.dispatch(actions.fullTextSearch(queryParam.keyword));
-            this.props.dispatch(actions.setValue('loading', false));
-        }
-    }
+    // componentDidMount() {
+    //     let queryParam = this.props.location.query;
+    //     if (queryParam&&queryParam.keyword) {
+    //         this.props.dispatch(actions.fullTextSearch(queryParam.keyword));
+    //         this.props.dispatch(actions.setValue('loading', false));
+    //     }
+    // }
     goBack(){
         this.props.history.push('/home');
     }
@@ -56,7 +56,7 @@ class Search extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const pageState = state.loadstar.pages.searchResultPage;
+    const pageState = state.loadstar.pages[config.pageId];
     return Object.assign({}, pageState);
 };
 

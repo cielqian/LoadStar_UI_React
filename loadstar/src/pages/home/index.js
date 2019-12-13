@@ -11,11 +11,10 @@ import DashPanel from '../dash';
 import LinkManagement from '../link';
 import TagManagement from '../tag';
 
-import TrackService from '../../service/trackService';
-
-
 import BookmarkDrawer from '../../components/bookmarkDrawer';
-import Searcher from '../../components/searcher'
+import Searcher from '../../components/searcher';
+
+import TrackComponent from '../../components/evenTrack/trackComponent';
 const { Header, Sider, Content, Footer } = Layout;
 
 document.title = 'LoadStar';
@@ -38,8 +37,9 @@ class Home extends Component {
             collapsed: !this.state.collapsed,
         });
     };
+
+    // @track(before(() => TrackService.recordClick({pageId:'home',ctrlId:'openDrawer'})))
     openDrawer() {
-        TrackService.recordCtrlClick({pageId:'home',ctrlId:'createLink'})
         this.props.dispatch(showDrawer());
     };
     render() {
@@ -62,12 +62,12 @@ class Home extends Component {
                                     <span>Link</span>
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="/home/tag">
+                            {/* <Menu.Item key="/home/tag">
                                 <Link to="/home/tag">
                                     <Icon type="book" />
                                     <span>Tag</span>
                                 </Link>
-                            </Menu.Item>
+                            </Menu.Item> */}
                             <Menu.Item key="/home/setting">
                                 <Icon type="setting" />
                                 <span>Setting</span>
@@ -78,12 +78,16 @@ class Home extends Component {
                     <Layout>
                         <Header style={{ background: '#fff', padding: 0 }}>
                             <Row>
-                                <Icon
-                                    className="trigger"
-                                    type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                                    onClick={this.toggle}
-                                />
-                                <Icon className={homeCss.launch} onClick={this.openDrawer} type="thunderbolt" />
+                                <TrackComponent inline page="home" ctrl="foldMenu" type="click" >
+                                    <Icon
+                                        className="trigger"
+                                        type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                        onClick={this.toggle}
+                                    />
+                                </TrackComponent>
+                                <TrackComponent inline page="home" ctrl="openDrawer" type="click" >
+                                    <Icon className={homeCss.launch} onClick={this.openDrawer} type="thunderbolt" />
+                                </TrackComponent>
                                 <Searcher></Searcher>
                             </Row>
                         </Header>

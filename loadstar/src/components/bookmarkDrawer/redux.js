@@ -1,6 +1,7 @@
 import linkService from '@apiService/linkService';
 import tagService from '@apiService/tagService';
 import {pageId} from './config';
+import { message } from 'antd';
 
 export const actions = {
     setValue: function(field, payload){
@@ -10,9 +11,10 @@ export const actions = {
     },
     saveLink: function(payload) {
         return (dispatch) => {
+            dispatch({type: 'HIDDEN_DRAWER',payload:false});
             linkService.saveLink(Object.assign({}, payload, {tags: payload.selectedTags.map(x => x.id)}))
             .then(res => {
-                dispatch({type: 'HIDDEN_DRAWER',payload:false})
+                message.success('save success');
             })
         }
     },

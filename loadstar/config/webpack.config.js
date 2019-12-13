@@ -55,6 +55,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
    */
 const alias = {
   '@apiService': path.resolve('src/service'),
+  '@trackService': path.resolve('src/service/trackService'),
 };
 
 // This is the production and development configuration.

@@ -29,7 +29,16 @@ axios.interceptors.response.use(
     function (response) {
         var res = response;
         if (res.status === 200) {
-            return Promise.resolve(res.data);
+            if (!!res.config && res.config.url.indexOf('/oauth/token')) {
+                return Promise.resolve(res.data); 
+            }
+            if (res.data.status === 200) {
+                return Promise.resolve(res.data);   
+            }else{
+                return Promise.reject(res);
+            }
+        } else if(res.status === 401){
+            window.location.href = "/login";
         } else {
             return Promise.reject(res);
         }

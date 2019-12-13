@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './link.module.scss';
 import {actions} from './redux';
+import TrackService from '@trackService';
 import { Table, Button , Popconfirm} from 'antd'
 
 class LinkManagement extends Component {
@@ -19,6 +20,10 @@ class LinkManagement extends Component {
     onDeleteLink(link) {
         this.props.dispatch(actions.removeLink(link));
     }
+    onOpenLink(link){
+        TrackService.record({pageId:'link',ctrlId:'item', eventType:'click'});
+        window.open(link.url)
+    }
     columns = [
         {
             title: 'Name',
@@ -26,7 +31,7 @@ class LinkManagement extends Component {
             render: (text, record) => {
                 return (
                     <div>
-                        <a href={record.url} target="_blank">{text}</a>
+                        <span className={styles.linkDisplay} onClick={() => this.onOpenLink(record)}>{text}</span>
                         <div className={styles.linkOperate}>
                             <Popconfirm
                                 title="Are you sure?"

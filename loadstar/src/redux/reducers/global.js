@@ -58,6 +58,10 @@ export const reducerConfig = {
             initialState: false
         },
         {
+            name: 'searchResult',
+            initialState: []
+        },
+        {
             name: 'inputValue',
             initialState: ''
         }

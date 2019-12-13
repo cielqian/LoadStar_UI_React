@@ -8,7 +8,7 @@ const apis = {
 
         axios.post('/user-service/api/track/page', trackData);
     },
-    recordCtrlClick: function(payload) {
+    recordClick: function(payload) {
         apis.record(Object.assign({}, {eventType:'click'},payload)); 
     },
     recordClosePage: function(payload) {

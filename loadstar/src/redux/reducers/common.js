@@ -3,7 +3,8 @@ import * as actionType from '../actionType';
 const initialState = {
   drawerVisiable: false,
   tags:['1','2'],
-  hoverRowIndex: 0
+  hoverRowIndex: 0,
+  searchResult:[1]
 };
 
 function global(state = initialState, action) {
@@ -20,6 +21,10 @@ function global(state = initialState, action) {
         return Object.assign({}, state, {
           tags: action.payload
       });
+    case 'golbal.searchResult':
+      return Object.assign({}, state, {
+        searchResult: action.payload
+    });
     case 'linkManage/upState':
       return Object.assign({}, state, {
         hoverRowIndex: action.payload.hoverIndex

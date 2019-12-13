@@ -34,6 +34,7 @@ const apis = {
                     // dispatch(receiveRecentLink(res.data.items));
                 }).catch(res => {
                     // dispatch(receiveRecentLink([]));
+                    resolve({data:{total:0,items:[]}});
                 });
         });
     }

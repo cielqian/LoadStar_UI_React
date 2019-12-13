@@ -7,8 +7,10 @@ import { hiddenDrawer } from '../../redux/actions/common'
 import GroupSelectTag from '../tag'
 import {actions} from './redux';
 import {pageId} from './config';
+import TrackComponent from '../evenTrack/trackComponent'
+import TrackService from '../../service/trackService';
+
 const { Search } = Input;
-const {CheckableTag} = Tag;
 
 class BookmarkDrawer extends Component {
     constructor(props) {
@@ -19,6 +21,7 @@ class BookmarkDrawer extends Component {
     componentDidMount(){
     }
     onClose = () => {
+        TrackService.recordClick({pageId:'home', ctrlId:'hideDrawer'})
         this.props.dispatch(hiddenDrawer());
     };
     render() {
@@ -42,8 +45,6 @@ class BookmarkForm extends Component {
         super(props);
         this.onUrlChanged = this.onUrlChanged.bind(this);
     }
-    componentDidMount(){
-    }
     state = {
         analysising: false
     }
@@ -52,7 +53,9 @@ class BookmarkForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 if (utils.isUrl(values.url)) {
-                    this.props.dispatch(actions.saveLink(values))
+                    values.selectedTags = [];
+                    this.props.dispatch(actions.saveLink(values));
+                    this.props.form.resetFields();
                 } else {
                     message.warning('仅支持http和https协议');
                 }
@@ -98,9 +101,11 @@ class BookmarkForm extends Component {
                     )}
                 </Form.Item>
                 <Form.Item style={{ textAlign: 'center' }}>
-                    <Button type="primary" disabled={this.props.loading} htmlType="submit" style={{ width: '220px' }}>
-                        Save
-                    </Button>
+                    <TrackComponent page="drawer" ctrl="saveLink" type="click">
+                        <Button type="primary" disabled={this.props.loading} htmlType="submit" style={{ width: '220px' }}>
+                            Save
+                        </Button>
+                    </TrackComponent>
                 </Form.Item>
             </Form>
         )
