@@ -44,6 +44,10 @@ axios.interceptors.response.use(
         }
     },
     function (error) {
+        if (error.response == undefined) {
+            localStorage.removeItem("TOKEN");
+            window.location.href = "/login";
+        }
         return Promise.reject(error);
     }
 );

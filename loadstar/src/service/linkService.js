@@ -37,6 +37,22 @@ const apis = {
                     resolve({data:{total:0,items:[]}});
                 });
         });
+    },
+    fetchDashLinks: function (payload) {
+        return new Promise((resolve, reject) => {
+            axios.get('/link-service/api/link/loadstar', { params: payload })
+                .then(res => {
+                    resolve(res);
+                });
+        });
+    },
+    addLinkToDash: function (payload) {
+        return new Promise((resolve, reject) => {
+            axios.put('/link-service/api/link/'+ payload.id +'/addToDash')
+                .then(res => {
+                    resolve(res);
+                });
+        });
     }
 }
 

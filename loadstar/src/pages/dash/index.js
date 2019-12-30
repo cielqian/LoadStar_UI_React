@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
-import {List} from 'antd';
+import {actions} from './redux';
+
 
 class Dash extends Component {
+    componentDidMount(){
+        this.props.dispatch(actions.fetchDashLinks());
+    }
     render() {
         return (
             <div></div>

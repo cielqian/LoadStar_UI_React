@@ -11,5 +11,9 @@ export const reducers = [
     {
         name: 'pageData',
         initialState: []
+    },
+    {
+        name: 'loading',
+        initialState: true
     }
 ]

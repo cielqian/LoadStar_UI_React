@@ -17,12 +17,22 @@ export const actions = {
     },
     fetchLinks: function (payload) {
         return (dispatch, getState) => {
+            dispatch(actions.setValue('loading', true));
             linkService.fetchLinks({
                 currentPage: payload.current,
                 pageSize: payload.size
             }).then(res => {
+                dispatch(actions.setValue('loading', false));
                 dispatch(actions.setValue('pageData', res.data.items));
                 dispatch(actions.setValue('pagination', Object.assign({},payload,{total:parseInt(res.data.total)})));
+            })
+        }
+    },
+    dashLink: function(payload){
+        return (dispatch) => {
+            linkService.addLinkToDash(payload)
+            .then(res => {
+                dispatch(actions.fetchLinks({current:1,size:10}))
             })
         }
     }

@@ -24,6 +24,9 @@ class LinkManagement extends Component {
         TrackService.record({pageId:'link',ctrlId:'item', eventType:'click'});
         window.open(link.url)
     }
+    onAddToDash(link){
+        this.props.dispatch(actions.dashLink(link));
+    }
     columns = [
         {
             title: 'Name',
@@ -39,8 +42,11 @@ class LinkManagement extends Component {
                                 okText="Yes"
                                 cancelText="No"
                             >
-                                <Button type="link" size="small">删除</Button>
+                                <Button type="link" size="small" icon="delete"></Button>
                             </Popconfirm>
+                        </div>
+                        <div className={styles.linkOperate}>
+                            <Button type="link" size="small" icon="bank" onClick={() => this.onAddToDash(record)}></Button>
                         </div>
                     </div>)
             },
@@ -68,6 +74,7 @@ class LinkManagement extends Component {
                         return index === hoverRowIndex ? styles.rowActive : "";
                     }}
                     columns={this.columns} dataSource={this.props.pageData} size="small" rowKey="id"
+                    loading={this.props.loading}
                     pagination={{current:this.props.pagination.current, 
                     pageSize: this.props.pagination.size,
                     total:this.props.pagination.total,
