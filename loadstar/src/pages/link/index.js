@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styles from './link.module.scss';
 import {actions} from './redux';
 import TrackService from '@trackService';
-import { Table, Button , Popconfirm} from 'antd'
+import { Table, Button , Popconfirm, Tooltip} from 'antd'
 
 class LinkManagement extends Component {
     constructor(props){
@@ -46,7 +46,9 @@ class LinkManagement extends Component {
                             </Popconfirm>
                         </div>
                         <div className={styles.linkOperate}>
-                            <Button type="link" size="small" icon="bank" onClick={() => this.onAddToDash(record)}></Button>
+                            <Tooltip title="add to dash">
+                                <Button type="link" size="small" icon="api" onClick={() => this.onAddToDash(record)}></Button>
+                            </Tooltip>
                         </div>
                     </div>)
             },

@@ -7,7 +7,7 @@ const apis = {
                 "folderId": 0,
                 "icon": "",
                 "name": payload.name,
-                "often": true,
+                "often": false,
                 "tags": payload.tags,
                 "title": payload.name,
                 "url": payload.url

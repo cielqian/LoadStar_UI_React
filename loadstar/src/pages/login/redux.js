@@ -6,7 +6,7 @@ export const actions = {
             authService.login(payload)
             .then(res => {
                 localStorage.setItem("TOKEN", res.value)
-                window.location = '/home';
+                window.location = '/home/dash';
                 return Promise.resolve();    
             })
         }

@@ -29,12 +29,13 @@ axios.interceptors.response.use(
     function (response) {
         var res = response;
         if (res.status === 200) {
-            if (!!res.config && res.config.url.indexOf('/oauth/token')) {
+            if (!!res.config && res.config.url.indexOf('/oauth/token') > 0) {
                 return Promise.resolve(res.data); 
             }
             if (res.data.status === 200) {
                 return Promise.resolve(res.data);   
             }else{
+                // alert('fail')
                 return Promise.reject(res);
             }
         } else if(res.status === 401){

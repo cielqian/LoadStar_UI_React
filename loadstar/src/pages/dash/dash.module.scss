@@ -1,0 +1,34 @@
+// @keyframes topIn {
+
+//     from { transform: translateY(-50px) }
+  
+//     to { transform: translateY(0px) }
+  
+//   }
+
+// .topIn{
+//     animation: topIn 3s ease;
+// }
+
+.gridStyle {
+    width: 25%;
+    height: 100px;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+
+    .dashOperateStyle{
+        display: none;
+    }
+}
+
+.rowActive{
+    .dashOperateStyle{
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
+
