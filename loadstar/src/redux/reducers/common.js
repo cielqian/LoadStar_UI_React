@@ -4,7 +4,11 @@ const initialState = {
   drawerVisiable: false,
   tags:['1','2'],
   hoverRowIndex: 0,
-  searchResult:[1]
+  searchResult:[1],
+  userInfo: {
+    username: 'username',
+    nickname: 'nickname'
+  }
 };
 
 function global(state = initialState, action) {
@@ -16,6 +20,10 @@ function global(state = initialState, action) {
     case actionType.SHOW_DRAWER:
       return Object.assign({}, state, {
         drawerVisiable: true
+      });
+    case actionType.FETCH_USERINFO:
+        return Object.assign({}, state, {
+          userInfo: action.payload
       });
     case 'fetchTags':
         return Object.assign({}, state, {

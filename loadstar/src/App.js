@@ -45,7 +45,10 @@ axios.interceptors.response.use(
         }
     },
     function (error) {
-        if (error.response == undefined) {
+        if (error.message === 'Network Error') {
+            alert('服务器断开了')
+        }
+        else if(error.response == undefined) {
             localStorage.removeItem("TOKEN");
             window.location.href = "/login";
         }

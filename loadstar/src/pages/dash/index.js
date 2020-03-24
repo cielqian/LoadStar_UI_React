@@ -22,8 +22,15 @@ class Dash extends Component {
         return (
             <div>
                 <Row>
-                    <Col span={18}>
+                    <Col span={24}>
                         <Card>
+                            Hi~ {this.props.userInfo.username}，祝你开心每一天！
+                        </Card>
+                    </Col>
+                </Row>
+                <Row style={{marginTop:'15px'}}>
+                    <Col xl={24} xxl={18} >
+                        <Card title="快速访问">
                             {
                                 this.props.dashLinks.map((link) =>
                                     <Card.Grid onClick={() => this.onOpenLink(link)} 
@@ -43,7 +50,8 @@ class Dash extends Component {
 
 const mapStateToProps = (state) => {
     const pageState = state.loadstar.pages[config.pageId];
-    return Object.assign({}, pageState);
+    const userInfo = state.loadstar.global.userInfo;
+    return Object.assign({}, pageState, {userInfo: userInfo});
 };
 
 
